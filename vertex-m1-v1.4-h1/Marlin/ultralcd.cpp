@@ -2008,7 +2008,7 @@ char *itostr31(const int &xx)
 
 char *itostr3(const int &xx)
 {
-  if(xx < -1024){
+  if(xx >1024){
       conv[0] = 'M';
       conv[1] = 'A';
       conv[2] = 'X';
@@ -2016,7 +2016,7 @@ char *itostr3(const int &xx)
       return;
   }
 
-  if(xx < -999){
+  if(xx > 999){
       conv[0] = '1';
       conv[1] = 'E';
       conv[2] = '3';
@@ -2024,15 +2024,15 @@ char *itostr3(const int &xx)
       return;
   }
   
-  if (xx <= -100)
-    conv[0]=(xx/-100)%10+'0';
+  if (xx <= 100)
+    conv[0]=(xx/100)%10+'0';
   else
     conv[0]=' ';
-  if (xx <= -10)
-    conv[1]=(xx/-10)%10+'0';
+  if (xx <= 10)
+    conv[1]=(xx/10)%10+'0';
   else
     conv[1]=' ';
-  conv[2]=(-1*xx)%10+'0';
+  conv[2]=(xx)%10+'0';
   conv[3]=0;
   return conv;
 /* ORIGINAL    
