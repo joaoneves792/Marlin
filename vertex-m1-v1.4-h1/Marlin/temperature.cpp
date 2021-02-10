@@ -648,7 +648,8 @@ static float analog2temp(int raw, uint8_t e) {
 static float analog2tempBed(int raw) {
   #define DIY_THERMISTOR
   #ifdef DIY_THERMISTOR
-    return -0.1413f*raw+119.4f;
+    //return -0.1413f*raw+119.4f;
+    return (float)raw;
   #elif BED_USES_THERMISTOR
     float celsius = 0;
     byte i;
