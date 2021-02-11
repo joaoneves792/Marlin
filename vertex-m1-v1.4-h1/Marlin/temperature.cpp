@@ -646,10 +646,7 @@ static float analog2temp(int raw, uint8_t e) {
 // Derived from RepRap FiveD extruder::getTemperature()
 // For bed temperature measurement.
 static float analog2tempBed(int raw) {
-  #ifdef DIY_THERMISTOR
-    return -0.1413f*(raw/OVERSAMPLENR)+119.4f;
-    //return (float)(raw/OVERSAMPLENR);
-  #elif BED_USES_THERMISTOR
+  #ifdef BED_USES_THERMISTOR
     float celsius = 0;
     byte i;
 

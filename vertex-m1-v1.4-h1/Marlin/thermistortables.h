@@ -5,6 +5,33 @@
 
 #define OVERSAMPLENR 16
 
+#ifdef DIY_THERMISTOR
+
+const short temptable_diy[][2] PROGMEM = {
+{       100*OVERSAMPLENR        ,       750     },
+{       312*OVERSAMPLENR        ,       80      },
+{       334*OVERSAMPLENR        ,       75      },
+{       359*OVERSAMPLENR        ,       70      },
+{       384*OVERSAMPLENR        ,       65      },
+{       417*OVERSAMPLENR        ,       60      },
+{       428*OVERSAMPLENR        ,       55      },
+{       494*OVERSAMPLENR        ,       50      },
+{       515*OVERSAMPLENR        ,       45      },
+{       545*OVERSAMPLENR        ,       40      },
+{       583*OVERSAMPLENR        ,       35      },
+{       612*OVERSAMPLENR        ,       30      },
+{       650*OVERSAMPLENR        ,       25      },
+{       720*OVERSAMPLENR        ,       20      },
+{       747*OVERSAMPLENR        ,       19      },
+{       806*OVERSAMPLENR        ,       15      },
+{       833*OVERSAMPLENR        ,       10      },
+{       893*OVERSAMPLENR        ,       5       },
+{       1008*OVERSAMPLENR       ,       0       } //safety
+};
+
+#endif
+
+
 #if (THERMISTORHEATER_0 == 1) || (THERMISTORHEATER_1 == 1)  || (THERMISTORHEATER_2 == 1) || (THERMISTORBED == 1) //100k bed thermistor
 
 const short temptable_1[][2] PROGMEM = {
@@ -1094,13 +1121,18 @@ const short temptable_1047[][2] PROGMEM = {
 # endif
 #endif
 
-#ifdef THERMISTORBED
-# define BEDTEMPTABLE TT_NAME(THERMISTORBED)
-# define BEDTEMPTABLE_LEN (sizeof(BEDTEMPTABLE)/sizeof(*BEDTEMPTABLE))
+#ifdef DIY_THERMISTOR
+   #define BEDTEMPTABLE temptable_diy
+   #define BEDTEMPTABLE_LEN 19 
 #else
-# ifdef BED_USES_THERMISTOR
-#  error No bed thermistor table specified
-# endif // BED_USES_THERMISTOR
+   #ifdef THERMISTORBED
+   # define BEDTEMPTABLE TT_NAME(THERMISTORBED)
+   # define BEDTEMPTABLE_LEN (sizeof(BEDTEMPTABLE)/sizeof(*BEDTEMPTABLE))
+   #else
+   # ifdef BED_USES_THERMISTOR
+   #  error No bed thermistor table specified
+   # endif // BED_USES_THERMISTOR
+   #endif
 #endif
 
 //Set the high and low raw values for the heater, this indicates which raw value is a high or low temperature
