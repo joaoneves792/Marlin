@@ -152,7 +152,7 @@ static void updateTemperaturesFromRawValues();
 #ifdef WATCH_TEMP_PERIOD
 int watch_start_temp[EXTRUDERS] = ARRAY_BY_EXTRUDERS(0,0,0);
 unsigned long watchmillis[EXTRUDERS] = ARRAY_BY_EXTRUDERS(0,0,0);
-#endif //WATCH_TEMP_PERIOD
+#endif //WATCH_TEMP_PERID
 
 #ifndef SOFT_PWM_SCALE
 #define SOFT_PWM_SCALE 0
@@ -646,10 +646,9 @@ static float analog2temp(int raw, uint8_t e) {
 // Derived from RepRap FiveD extruder::getTemperature()
 // For bed temperature measurement.
 static float analog2tempBed(int raw) {
-  #define DIY_THERMISTOR
   #ifdef DIY_THERMISTOR
-    //return -0.1413f*raw+119.4f;
-    return (float)raw;
+    return -0.1413f*(raw/OVERSAMPLENR)+119.4f;
+    //return (float)(raw/OVERSAMPLENR);
   #elif BED_USES_THERMISTOR
     float celsius = 0;
     byte i;
