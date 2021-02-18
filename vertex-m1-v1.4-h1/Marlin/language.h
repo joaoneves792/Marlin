@@ -75,13 +75,13 @@
 
         #define MSG_SPLASH_NAME " VERTEX  3D PRINTER"
         #define MSG_SPLASH_FIRMWARE "M:1.0 V:1.4  HEADS:1"
-        #define MSG_SPLASH_WEBSITE1 " vertex3dprinter.eu"
-        #define MSG_SPLASH_WEBSITE2 "    velleman.eu"
+        #define MSG_SPLASH_WEBSITE1 " warpenguin.dev    "
+        #define MSG_SPLASH_WEBSITE2 "    warpenguin "
 
         #define MSG_SPLASH_NAME_SMALL "VERTEX 3D PRINTER"
         #define MSG_SPLASH_FIRMWARE_SMALL "M:1.0 V:1.4 HDS:1"
-        #define MSG_SPLASH_WEBSITE1_SMALL "     K8400.eu"
-        #define MSG_SPLASH_WEBSITE2_SMALL "   velleman.eu"
+        #define MSG_SPLASH_WEBSITE1_SMALL " warpenguin  "
+        #define MSG_SPLASH_WEBSITE2_SMALL "warpenguin.dev"
 
 // LCD Menu Messages
 // Please note these are limited to 17 characters!
@@ -124,7 +124,7 @@
 	#define MSG_MOVE_1MM "Move 1mm"
 	#define MSG_MOVE_10MM "Move 10mm"
 	#define MSG_SPEED "Speed"
-	#define MSG_NOZZLE "Nozzle 1"
+	#define MSG_NOZZLE "Nozzle 1G1 X0 Y0 Z130"
 	#define MSG_NOZZLE1 "Nozzle 2"
 	#define MSG_NOZZLE2 "Nozzle 3"
 	#define MSG_BED "Bed"

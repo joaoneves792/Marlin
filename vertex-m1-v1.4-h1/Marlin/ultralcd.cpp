@@ -260,6 +260,11 @@ static void lcd_sdcard_stop()
     {
         enquecommand_P(PSTR(SD_FINISHED_RELEASECOMMAND));
     }
+
+    //Warpenguin: dont just stay there getting the head dirty in molten plastic!!
+    setTargetHotend(0,active_extruder);
+    enquecommand_P(PSTR("G90"));
+    enquecommand_P(PSTR("G1 Z190"));
     autotempShutdown();
 }
 
@@ -342,11 +347,11 @@ static void lcd_main_menu()
     {
         if (card.isFileOpen())
         {
+            MENU_ITEM(function, MSG_STOP_PRINT, lcd_sdcard_stop);
             if (card.sdprinting)
                 MENU_ITEM(function, MSG_PAUSE_PRINT, lcd_sdcard_pause);
             else
                 MENU_ITEM(function, MSG_RESUME_PRINT, lcd_sdcard_resume);
-            MENU_ITEM(function, MSG_STOP_PRINT, lcd_sdcard_stop);
         }else{
             MENU_ITEM(submenu, MSG_CARD_MENU, lcd_sdcard_menu);
 #if SDCARDDETECT < 1
@@ -635,6 +640,7 @@ static void lcd_prepare_menu()
     START_MENU();
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
     MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
+    MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu);
 #ifdef LEDCONTROL		
     MENU_ITEM(submenu, MSG_LED_MENU, lcd_led_menu);		
 #endif
@@ -649,7 +655,6 @@ static void lcd_prepare_menu()
     MENU_ITEM(function, MSG_PREHEAT_ABS, lcd_preheat_abs0);
   #endif
 #endif
-MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu);
 #ifdef SDSUPPORT
     #ifdef MENU_ADDAUTOSTART
       MENU_ITEM(function, MSG_AUTOSTART, lcd_autostart_sd);
@@ -823,9 +828,9 @@ static void lcd_move_menu()
 {
     START_MENU();  
     MENU_ITEM(back, MSG_PREPARE, lcd_prepare_menu);
-    MENU_ITEM(submenu, MSG_MOVE_10MM, lcd_move_menu_10mm);
     MENU_ITEM(submenu, MSG_MOVE_1MM, lcd_move_menu_1mm);
     MENU_ITEM(submenu, MSG_MOVE_01MM, lcd_move_menu_01mm);
+    MENU_ITEM(submenu, MSG_MOVE_10MM, lcd_move_menu_10mm);
     //TODO:X,Y,Z,E
     END_MENU();
 }
