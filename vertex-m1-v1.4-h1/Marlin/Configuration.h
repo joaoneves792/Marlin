@@ -21,7 +21,8 @@
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
 // Serial port 0 is still used by the Arduino bootloader regardless of this setting.
-#define SERIAL_PORT 0
+//JOAO USE SERIAL 2 for wifi serial
+#define SERIAL_PORT 2 
 
 // This determines the communication speed of the printer
 // This determines the communication speed of the printer

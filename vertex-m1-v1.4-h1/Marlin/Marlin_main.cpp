@@ -298,6 +298,9 @@ static int buflen = 0;
 static char serial_char;
 static int serial_count = 0;
 static boolean comment_mode = false;
+static boolean encoder_mode = false;
+int8_t encoderDiffTemp;
+extern int8_t encoderDiff;
 static char *strchr_pointer; // just a pointer to find chars in the command string like X, Y, Z, E, etc
 
 const int sensitive_pins[] = SENSITIVE_PINS; // Sensitive pin list for M42
@@ -584,6 +587,10 @@ void loop()
   manage_inactivity();
   checkHitEndstops();
   lcd_update();
+  if(encoderDiff == 0 && encoderDiffTemp != 0){
+    encoderDiffTemp = 0;
+    MYSERIAL.println(";#");//ACK encoder
+  }
 }
 
 void get_command()
@@ -597,11 +604,13 @@ void get_command()
     {
       if(!serial_count) { //if empty line
         comment_mode = false; //for new command
+        encoder_mode = false;
         return;
       }
       cmdbuffer[bufindw][serial_count] = 0; //terminate string
       if(!comment_mode){
         comment_mode = false; //for new command
+        encoder_mode = false;
         fromsd[bufindw] = false;
         if(strchr(cmdbuffer[bufindw], 'N') != NULL)
         {
@@ -690,6 +699,10 @@ void get_command()
     else
     {
       if(serial_char == ';') comment_mode = true;
+      if(comment_mode && serial_char == '#'){
+       encoder_mode = true; 
+      }
+      if(encoder_mode) {encoderDiff = serial_char; encoderDiffTemp = encoderDiff;}
       if(!comment_mode) cmdbuffer[bufindw][serial_count++] = serial_char;
     }
   }

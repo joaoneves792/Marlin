@@ -158,7 +158,7 @@ volatile uint8_t slow_buttons;//Contains the bits of the currently pressed butto
 uint8_t currentMenuViewOffset;              /* scroll offset in the current menu */
 uint32_t blocking_enc;
 uint8_t lastEncoderBits;
-uint32_t encoderPosition;
+uint32_t encoderPosition; //JOAO updated this variable with esp data
 #if (SDCARDDETECT > 0)
 bool lcd_oldcardstatus;
 #endif
@@ -1648,10 +1648,11 @@ void lcd_init()
     lcd_implementation_init();
 
 #ifdef NEWPANEL
-    pinMode(BTN_EN1,INPUT);
+    //JOAO dont use encoder pins, they are used by wifi serial
+    /*pinMode(BTN_EN1,INPUT);
     pinMode(BTN_EN2,INPUT);
     WRITE(BTN_EN1,HIGH);
-    WRITE(BTN_EN2,HIGH);
+    WRITE(BTN_EN2,HIGH);*/
   #if BTN_ENC > 0
     pinMode(BTN_ENC,INPUT);
     WRITE(BTN_ENC,HIGH);
@@ -1840,8 +1841,9 @@ void lcd_buttons_update()
 {
 #ifdef NEWPANEL
     uint8_t newbutton=0;
-    if(READ(BTN_EN1)==0)  newbutton|=EN_A;
-    if(READ(BTN_EN2)==0)  newbutton|=EN_B;
+    //JOAO disable encoder pins
+    /*if(READ(BTN_EN1)==0)  newbutton|=EN_A;
+    if(READ(BTN_EN2)==0)  newbutton|=EN_B;*/
   #if BTN_ENC > 0
     if((blocking_enc<millis()) && (READ(BTN_ENC)==0))
         newbutton |= EN_C;
@@ -1879,7 +1881,8 @@ void lcd_buttons_update()
     }
     buttons=~newbutton; //invert it, because a pressed switch produces a logical 0
 #endif//!NEWPANEL
-
+//JOAO Disable this, let the esp manage the encoder
+/*
     //manage encoder rotation
     uint8_t enc=0;
     if(buttons&EN_A)
@@ -1917,6 +1920,7 @@ void lcd_buttons_update()
         }
     }
     lastEncoderBits = enc;
+    */
 }
 
 void lcd_buzz(long duration, uint16_t freq)
